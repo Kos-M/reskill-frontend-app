@@ -80,7 +80,7 @@ export default function Home() {
 
       {/* Related Articles or Posts */}
       <div>
-        <h1 className="text-black font-semibold text-[40px] leading-44 pb-8">Related articles or posts</h1>
+        <h1 className="text-black font-semibold tracking-wide  text-[40px] leading-44 pb-8">Related articles or posts</h1>
         <RelatedArticlePosts  />
       </div>
     </div>
