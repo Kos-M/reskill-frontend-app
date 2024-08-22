@@ -6,6 +6,7 @@ import './App.css'
 import SinglePost from "./pages/SinglePost";
 import Home from "./pages/Home";
 import TopNavigation from "./components/TopNavigation";
+import Footer from './components/Footer'
 
 function App() {
   return (
@@ -22,10 +23,14 @@ function App() {
 
 function Layout() {
   return (
-    <div>
-      <TopNavigation/>
-      {/* <hr /> */}
-      <Outlet />
+    <div className="relative h-screen">
+      <TopNavigation />
+      
+      <main className="mb-16"> {/* pb-16 to avoid overlapping footer */}
+        <Outlet />
+      </main>
+     
+      <Footer />
     </div>
   );
 }

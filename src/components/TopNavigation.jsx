@@ -7,7 +7,7 @@ export default function TopNavigation() {
         <div className=">Site Name</div>
       </div> */}
 
-      <nav className="w-full h-[164px] flex items-center justify-between px-20 py-20 ">
+      <nav className="w-full h-[164px] flex items-center justify-between px-20 py-20">
         {/* <!-- Brand on the left --> */}
         <div className="py-67 text-black font-inter text-[20px]  tracking-wide font-medium leading-[30px] text-left">Site name</div>
 

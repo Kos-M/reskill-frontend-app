@@ -6,7 +6,7 @@ import Sheeps from "../assets/sheep.png";
 
 export default function Home() {
   return (
-    <div className="px-20 w-100 h-screen">
+    <div className="px-20 w-100">
       {/* Headline */}
       <div className="w-[733px] inline-block py-20 text-left mx-auto">
         <p className="text-medium font-inter text-left font-bold text-[64px]">
@@ -28,7 +28,7 @@ export default function Home() {
       />
 
       {/* Rest Text  */}
-      <div className="w-7/12 py-20 mx-auto font-medium font-inter text-xl leading-30 flex flex-col ">
+      <div className="w-7/12 py-20 mx-auto font-normal font-inter text-xl leading-30 flex flex-col ">
         <p className="pb-2">
           Body text for your whole article or post. We’ll put in some lorem
           ipsum to show how a filled-out page might look:
@@ -61,7 +61,7 @@ export default function Home() {
       </div>
 
       {/* Text After double images */}
-      <div className="w-7/12 py-20 mx-auto font-medium font-inter text-xl leading-30 flex flex-col">
+      <div className="w-7/12 py-20 mx-auto font-normal font-inter text-xl leading-30 flex flex-col">
         <p className="py-2">
           Excepteur efficient emerging, minim veniam anim cloying aute carefully
           curated gauche. Espresso exquisite perfect nostrud nisi intricate.
