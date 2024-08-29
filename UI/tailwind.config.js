@@ -4,20 +4,20 @@ export default {
   theme: {
     extend: {
       spacing: {
-        '67': '67px',
+        67: "67px",
       },
       fontFamily: {
-        inter: ['Inter', 'sans-serif'],
+        inter: ["Inter", "sans-serif"],
       },
-      colors:{
-        semiGray:'#828282'
+      colors: {
+        semiGray: "#828282",
+        footerLinks: "#454545",
       },
       lineHeight: {
-        '30': '30px', // Custom class 'leading-custom-30'
-        '44': '44px'
+        30: "30px", // Custom class 'leading-custom-30'
+        44: "44px",
       },
     },
   },
   plugins: [],
-}
-
+};
