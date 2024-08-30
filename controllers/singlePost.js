@@ -18,6 +18,8 @@ const getSingle = (req, res) => {
       message: `Unknown specified post id: ${postID}`,
     });
 
+  // if posts are not populated yet , fetch them now.
+  // in case of direct browse to post url without go to the HomePage.
   getPosts().then((posts) => {
     const exists2 = posts.findIndex((obj) => obj.id === Number(postID));
     if (exists2 === -1) return;

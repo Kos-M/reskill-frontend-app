@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 const mockData = require("../utils/mockData");
-// read env variable to load urls in array , and failback to empty array if the variable is not set
+// read env variable to load urls in array , and failback to empty values if the variable is not set
 const URLS = {
   users: process.env.USERS_URL ?? "",
   posts: process.env.POSTS_URL ?? "",
@@ -9,8 +9,8 @@ const URLS = {
 };
 const cachePeriod = process.env.CACHE_PERIOD ?? 0;
 
-const useMock = false;
-const randomizeResults = false;
+const useMock = false; // change it to true to load static conext like figma
+const randomizeResults = false; // change to true to shuffle posts on each fresh fetch
 
 const cachedPosts = {
   fetchedOn: -1,
@@ -119,7 +119,6 @@ const fetchPosts = (req, res) => {
 const fetchPostsMocked = (req, res) => {
   cachedPosts.fetchedOn = Date.now();
   cachedPosts.posts = mockData;
-  // setTimeout(() => , 100);
   res.json({ posts: mockData });
 };
 
