@@ -43,7 +43,7 @@ export default function SinglePost() {
             <img
               src={url}
               alt="hero image"
-              className="object-contain w-auto h-80 md:h-auto rounded-lg "
+              className="object-cover w-full h-full rounded-lg"
             />
           </div>
 
