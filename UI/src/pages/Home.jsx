@@ -7,6 +7,10 @@ import Api from "../utils/Api";
 export default function Home() {
   const [posts, setPosts] = useState([]);
   const [fetched, setFetched] = useState(false);
+  const [timeoutID, setTimeoutID] = useState(null);
+
+  const before = Date.now();
+  const skeletonDelay = 50; // minimum delay to show/render the skeletons
 
   useEffect(() => {
     Api.get("/posts").then((ans) => {
@@ -15,7 +19,15 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (posts.length > 0) setFetched(true);
+    let diff = Date.now() - before;
+    if (diff >= skeletonDelay) diff = 0;
+    else if (diff < skeletonDelay) {
+      diff = skeletonDelay - diff;
+    }
+    if (posts.length > 0) {
+      if (timeoutID) clearTimeout(timeoutID);
+      setTimeoutID(setTimeout(() => setFetched(true), diff));
+    }
   }, [posts]);
 
   return (
@@ -53,7 +65,7 @@ export default function Home() {
             />
           </a>
         ) : (
-          <div className="mx-auto flex flex-col text-center  justify-center  h-full w-full    ">
+          <div className="mx-auto flex flex-col  justify-center  h-full w-full ">
             <Skeleton
               className="mx-auto md:w-2/3 w-full h-[4vw] md:h-[2vh]"
               count={2}
