@@ -26,13 +26,9 @@ function Layout() {
   return (
     <div className="flex flex-col z-10 ">
       <TopNavigation className="w-full flex items-center justify-between px-4 lg:px-20 py-10   md:py-[55px]" />
-
       <main className="">
-        {" "}
-        {/* pb-16 to avoid overlapping footer */}
         <Outlet />
       </main>
-
       <Footer className="w-full h-[264px]" />
     </div>
   );

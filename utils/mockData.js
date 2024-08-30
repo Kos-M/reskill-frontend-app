@@ -5,17 +5,22 @@ module.exports = [
     title: "Posts List",
     url: "http://192.168.1.51:3000/img/foodPlates.png",
     thumbnailUrl: "#",
+    userName: "Author",
     userId: 1,
     body: "Subheading that sets up context, shares more info about the author, or generally gets people psyched to keep reading",
   },
   {
     id: 2,
+    title: "Title",
+    userName: "Author",
     url: "http://192.168.1.51:3000/img/flowers.png",
     thumbnailUrl: "#",
     body: "Body text for your whole article or post. We’ll put in some lorem ipsum to show how a filled-out page might look:",
   },
   {
     id: 3,
+    title: "Title",
+    userName: "Author",
     url: "http://192.168.1.51:3000/img/sheep.png",
     thumbnailUrl: "#",
     body: "Excepteur efficient emerging, minim veniam anim aute carefully curated Ginza conversation exquisite perfect nostrud nisi intricate Content. Qui international first-class nulla ut. Punctual adipisicing, essential lovely queen tempor eiusmod irure. Exclusive izakaya charming Scandinavian impeccable aute quality of life soft power pariatur Melbourne occaecat discerning. Qui wardrobe aliquip, et Porter destination Toto remarkable officia Helsinki excepteur Basset hound. Zürich sleepy perfect consectetur.",
@@ -23,6 +28,8 @@ module.exports = [
 
   {
     id: 4,
+    title: "Title",
+    userName: "Author",
     url: "http://192.168.1.51:3000/img/foodPlates.png",
     thumbnailUrl: "#",
     body: "Exquisite sophisticated iconic cutting-edge laborum deserunt Addis Ababa esse bureaux cupidatat id minim. Sharp classic the best commodo nostrud delightful. Conversation aute Rochester id. Qui sunt remarkable deserunt intricate airport handsome K-pop excepteur classic esse Asia-Pacific laboris.",
