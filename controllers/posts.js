@@ -9,9 +9,8 @@ const URLS = {
 };
 const cachePeriod = process.env.CACHE_PERIOD ?? 0;
 
-// const useMock = false;
-const useMock = true;
-const randomizeResults = true;
+const useMock = false;
+const randomizeResults = false;
 
 const cachedPosts = {
   fetchedOn: -1,
@@ -31,16 +30,70 @@ Array.prototype.shuffle = function () {
  * will resolve same object when all promises are finished.
  */
 const promResolver = async (promObject) => {
-  // Step 1 & 2: Convert the object to an array of key-promise pairs and map each promise to its resolved value's length.
+  // Convert the object to an array of key-promise pairs and map each promise to its resolved value's length.
   const entries = await Promise.all(
     Object.entries(promObject).map(async ([key, promise]) => {
       const value = await promise; // Wait for the promise to resolve
-      return [key, value?.data]; // Return the key and the length as a tuple
+      return [key, value?.data]; // Return the key and the value as a tuple
     })
   );
 
-  // Step 3 & 4: Convert the array of entries back to an object
+  // Convert the array of entries back to an object
   return Object.fromEntries(entries);
+};
+
+/**
+ * Fetches all post related data , merge on common keys and filter valid data
+ * @returns posts: array of merged posts
+ */
+const getPosts = () => {
+  return new Promise((resolve, reject) => {
+    console.log("fetching data..");
+    const prom = {};
+    Object.keys(URLS).forEach((key) => {
+      prom[key] = axios.get(URLS[key]); // here we are converting object with values urls to fetch promises.
+    });
+    // {
+    //   users: Promise { <pending> },
+    //   posts: Promise { <pending> },
+    //   photos: Promise { <pending> }
+    // }
+    promResolver(prom)
+      .then((ans) => {
+        let postsNPhotos = [];
+        // merge posts - photos on id key
+        postsNPhotos = [...ans.posts];
+        // merge posts and photos with Users..
+        ans.users.forEach((us) => {
+          const exists = postsNPhotos.findIndex((obj) => obj.userId === us.id);
+          if (exists > -1) {
+            postsNPhotos[exists].userName = us.name; // merge matched post with photo data..
+            postsNPhotos[exists].city = us?.address?.city;
+          }
+        });
+        // filter out all data without username or body props
+        postsNPhotos = postsNPhotos.filter(
+          (item) =>
+            Object.prototype.hasOwnProperty.call(item, "userName") &&
+            Object.prototype.hasOwnProperty.call(item, "body")
+        );
+        // merge matched post with photo data..
+        ans.photos.forEach((ph) => {
+          const exists = postsNPhotos.findIndex((obj) => obj.id === ph.id);
+          if (exists > -1) {
+            postsNPhotos[exists] = { ...postsNPhotos[exists], ...ph };
+          }
+        });
+
+        // keep cached posts in local cache
+        cachedPosts.fetchedOn = Date.now();
+        cachedPosts.posts = randomizeResults
+          ? postsNPhotos.shuffle()
+          : postsNPhotos;
+        resolve(cachedPosts.posts);
+      })
+      .catch((e) => reject(e));
+  });
 };
 
 const fetchPosts = (req, res) => {
@@ -52,49 +105,17 @@ const fetchPosts = (req, res) => {
       posts: cachedPosts.posts,
     });
   }
-  console.log("fetching data..");
-  const prom = {};
-  Object.keys(URLS).forEach((key) => {
-    prom[key] = axios.get(URLS[key]); // here we are converting object with values urls to fetch promises.
-  });
-  // {
-  //   users: Promise { <pending> },
-  //   posts: Promise { <pending> },
-  //   photos: Promise { <pending> }
-  // }
-  promResolver(prom).then((ans) => {
-    // console.log(ans);
-    let postsNPhotos = [];
-    // merge posts - photos on id key
-    postsNPhotos = [...ans.posts];
-    ans.photos.forEach((ph) => {
-      const exists = postsNPhotos.findIndex((obj) => obj.id === ph.id);
-      if (exists > -1) {
-        postsNPhotos[exists] = { ...postsNPhotos[exists], ...ph }; // merge matched post with photo data..
-      }
-    });
-    // merge posts and photos with Users..
-    ans.users.forEach((us) => {
-      const exists = postsNPhotos.findIndex((obj) => obj.userId === us.id);
-      if (exists > -1) {
-        postsNPhotos[exists].userName = us.name; // merge matched post with photo data..
-        postsNPhotos[exists].city = us?.address?.city;
-      }
-    });
-
-    const filtered = postsNPhotos.filter(
-      (item) =>
-        Object.prototype.hasOwnProperty.call(item, "userName") &&
-        Object.prototype.hasOwnProperty.call(item, "body")
+  // fetch posts from third party
+  getPosts()
+    .then((posts) => res.json({ posts }))
+    .catch((e) =>
+      res.status(500).json({ error: e?.message ?? "Internal Error" })
     );
-    // console.log(filtered);
-    // keep cached posts in local cache
-    cachedPosts.fetchedOn = Date.now();
-    cachedPosts.posts = randomizeResults ? filtered.shuffle() : filtered;
-    res.json({ posts: cachedPosts.posts });
-  });
 };
 
+/**
+ * Only for demo purposes , respond with mock data
+ */
 const fetchPostsMocked = (req, res) => {
   cachedPosts.fetchedOn = Date.now();
   cachedPosts.posts = mockData;
@@ -105,4 +126,5 @@ const fetchPostsMocked = (req, res) => {
 module.exports = {
   fetchPosts: useMock ? fetchPostsMocked : fetchPosts,
   cachedPosts,
+  getPosts,
 };
