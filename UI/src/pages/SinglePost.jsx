@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Api from "../utils/Api";
-// import Hero from "../assets/hero_single_post.png";
 
 export default function SinglePost() {
   const [body, setBody] = useState("");
@@ -14,10 +13,9 @@ export default function SinglePost() {
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const postID = urlParams.get("id");
-    console.log("param : ", postID);
+
     Api.get(`/post/${postID}`)
       .then((res) => {
-        console.log(res.data.result);
         const { body, title, url, userName, city } = res.data.result;
         setBody(body);
         setTitle(title);
@@ -28,13 +26,11 @@ export default function SinglePost() {
         if (e?.message.includes("404")) {
           navigate("/404");
         }
-        console.log(e.message);
       });
   }, []);
 
   return (
     <div className="px-4 md:px-20 w-full h-full  overflow-y-auto mt-8 md:mt-20 mb-[120px]">
-      {/* md:h-[calc(100vh-600px)] */}
       <div className="flex flex-col md:flex-row justify-between">
         {/* Text */}
         <div className="md:w-[624px] mb-8 md:mb-0">

@@ -1,10 +1,9 @@
-import React from "react";
+import PropTypes from "prop-types";
 
 import fb from "../assets/icons/fb.png";
 import linkedin from "../assets/icons/linkedin.png";
 import yt from "../assets/icons/yt.png";
 import insta from "../assets/icons/insta.png";
-import PropTypes from "prop-types";
 
 Footer.propTypes = {
   className: PropTypes.string,
